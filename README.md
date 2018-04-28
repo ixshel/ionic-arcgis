@@ -16,3 +16,5 @@ After this do an
 And finally run the project using
 
 ```ionic lab```
+
+![alt text](https://github.com/ixshelescamilla/ionic-arcgis/blob/master/ionic_arcgis.png)
