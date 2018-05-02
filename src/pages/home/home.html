@@ -1,13 +1,25 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Home</ion-title>
-  </ion-navbar>
-</ion-header>
-
-<ion-content padding>
-  <h2>ArcGIS Ionic Demo</h2>
-  <!--
-   Add our map div here
-   -->
-  <div id="map" #map style="height: 100%;" ></div>
-</ion-content>
+    <ion-navbar>
+      <ion-title>
+        About
+      </ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+  
+    <ion-card *ngIf="destroyersData">
+  
+      <ion-card-header>
+        Information...
+      </ion-card-header>
+  
+      <ion-card-content>
+        {{destroyersData}}<!-- Add card content here! -->
+      </ion-card-content>
+  
+    </ion-card>
+  
+  
+    <button ion-button color="light" (click)="getTextFile()">Light</button>
+  </ion-content>
