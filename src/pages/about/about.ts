@@ -74,11 +74,11 @@ export class AboutPage implements OnInit {
       "esri/core/watchUtils",
       "esri/layers/GraphicsLayer",
       "esri/Graphic",
+      "dojo/domReady!"
     ]).then(([Map,
       MapView, SceneView, watchUtils, GraphicsLayer, Graphic]) => {
 
-
-      let map = new Map({
+      var map = new Map({
         // basemap: 'hybrid'
         basemap: 'satellite',
         ground: 'world-elevation'
@@ -120,7 +120,7 @@ export class AboutPage implements OnInit {
         evt.stopPropagation();
       });
 
-      this.view.popup.on("trigger-action", function(evt) {
+      this.view.popup.on("trigger-action", function (evt) {
         if (evt.action.id === "track" && this.view) {
           var graphic = this.view.popup.selectedFeature;
           var trackFeatures = [];
@@ -134,7 +134,7 @@ export class AboutPage implements OnInit {
                 graphic.attributes.line1,
                 graphic.attributes.line2
               );
-            } catch (err) {}
+            } catch (err) { }
 
             if (loc !== null) {
               trackFeatures.push([loc.x, loc.y, loc.z]);
@@ -189,7 +189,8 @@ export class AboutPage implements OnInit {
       date.getUTCSeconds()
     );
 
-    var position_gd = satellite.eci_to_geodetic(position_eci, gmst);
+    if (position_eci && gmst) {
+      var position_gd = satellite.eci_to_geodetic(position_eci, gmst);
 
     var longitude = position_gd.longitude;
     var latitude = position_gd.latitude;
@@ -210,9 +211,14 @@ export class AboutPage implements OnInit {
       y: rad2deg * latitude,
       z: height * 1000
     };
+    }
   }
 
-  getSatelliteInfo(count, lines, Graphic, satelliteLayer) {
+  async getSatelliteInfo(count, lines, Graphic, satelliteLayer) {
+
+    
+
+
     for (let i = 0; i < Number(count); i++) {
       var commonName = lines[i * 3 + 0];
       let line1 = lines[i * 3 + 1];
@@ -235,7 +241,7 @@ export class AboutPage implements OnInit {
       let satelliteLoc = null;
 
       try {
-        satelliteLoc = this.getSatelliteLocation(new Date(time), line1, line2);
+        satelliteLoc = await this.getSatelliteLocation(new Date(time), line1, line2);
       } catch (err) {
         console.log('nooooooooooooo', err)
       }
